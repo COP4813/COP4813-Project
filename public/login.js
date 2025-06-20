@@ -7,7 +7,7 @@ function logInUser(){
     const password = document.querySelector('.password').value;
 
     // POST route to compare with the database    
-    fetch('http://localhost:3000/login', {
+    fetch('https://cop4813-project.onrender.com/login', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

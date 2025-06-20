@@ -6,7 +6,7 @@ signUpButton.addEventListener("click", () => {
     const password = document.querySelector('.password').value;
 
 
-    fetch('http://localhost:3000/users', {
+    fetch('https://cop4813-project.onrender.com/users', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -26,3 +26,4 @@ signUpButton.addEventListener("click", () => {
         console.error('Error creating user:', error);
     });
 });
+
