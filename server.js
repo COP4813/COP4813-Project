@@ -1,7 +1,7 @@
 // MongoDB set-up
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb+srv://miguelespinosa15:4Uoc2kLrELHfdQ1n@cop4813-project.rwldrhz.mongodb.net/?retryWrites=true&w=majority&appName=COP4813-Project';
+const mongoURI = process.env.MONGO_URI;
 
 mongoose.connect(mongoURI)
   .then(() => console.log('✅ Connected to MongoDB'))
@@ -10,7 +10,8 @@ mongoose.connect(mongoURI)
 // Server.js set up
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 
 //Parse JSON to form data
 app.use(express.json());
