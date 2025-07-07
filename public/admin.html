@@ -78,6 +78,33 @@
             function deleteTask(taskId) {
                 //delete task for user if click trash-can
             }
+
+            async function getUsers() {
+                try {
+                const response = await fetch('/users');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const users = await response.json();
+                const userList = document.getElementById('userList');
+                userList.innerHTML = ''; // clear existing list
+
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item', 'user-item');
+                    li.textContent = user.username || user.email; // show username or fallback to email
+                    userList.appendChild(li);
+                });
+                } catch (error) {
+                console.error(error);
+                alert('Error loading users');
+                }
+            }
+
+            // Call getUsers when the page loads
+            window.onload = () => {
+                getUsers();
+            };
         </script>
 
 

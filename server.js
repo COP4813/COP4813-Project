@@ -22,6 +22,16 @@ app.use(express.static('public'));
 
 const User = require('./models/User');
 // ROUTES
+// GET route to fetch users 
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({}, 'email'); // get email and username (adjust fields as needed)
+    res.json(users);
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
 
 //POST route to create user
 app.post('/users', async (req, res) => {
