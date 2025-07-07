@@ -47,6 +47,18 @@ app.post('/users', async (req, res) => {
   }
 });
 
+// DELETE route for users
+app.delete('/users/:id', async (req, res) => {
+  const userId = req.params.id;
+  try {
+    await User.findByIdAndDelete(userId);
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting user:', err);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
 // Authenticates the user
 const bcrypt = require('bcrypt');
 
