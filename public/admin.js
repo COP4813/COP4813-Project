@@ -39,7 +39,7 @@ async function deleteUser(userId) {
 	if (!confirm('Are you sure you want to delete this user?')) return;
 
 	try {
-		const response = await fetch(`/users/$ {userId}`, { method: 'DELETE' });
+		const response = await fetch(`/users/${userId}`, { method: 'DELETE' });
 		if (!response.ok) throw new Error('Failed to delete user');
 		alert('User deleted successfully');
 		getUsers(); // refresh user list
