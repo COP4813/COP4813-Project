@@ -1,3 +1,4 @@
+// Function to fetch users
 async function getUsers() {
 	try {
 		const response = await fetch('/users');
@@ -34,7 +35,7 @@ async function getUsers() {
 		alert('Error loading users');
 	}
 }
-
+// Function to delete user when trash icon clicked
 async function deleteUser(userId) {
 	if (!confirm('Are you sure you want to delete this user?')) return;
 
@@ -49,6 +50,7 @@ async function deleteUser(userId) {
 	}
 }
 
+// fetch users as soon as page loads
 window.onload = () => {
 	getUsers();
 };
