@@ -1,4 +1,9 @@
 /* Index page & Login/Sig Up page */
+.container{
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
 img{
 	width: 300px;
     height:auto;
