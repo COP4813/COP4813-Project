@@ -67,3 +67,13 @@ window.onload = () => {
 			window.location.href = '/login.html';
 		});
 }
+
+// Signs admin out
+    const signOutBtn = document.querySelector(".signOutBtn");
+    signOutBtn.addEventListener("click", () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
+
+        window.location.href = "index.html";
+    });
