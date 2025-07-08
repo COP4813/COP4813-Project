@@ -60,7 +60,7 @@ app.get('/users', isAuthenticated, async (req, res) => {
 });
 
 //POST route to create user
-app.post('/users', isAuthenticated, async (req, res) => {
+app.post('/users', async (req, res) => {
   const { email, password } = req.body;
 
   try {
