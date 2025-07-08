@@ -1,3 +1,4 @@
+/* Index page & Login/Sig Up page */
 img{
 	width: 300px;
     height:auto;
@@ -36,4 +37,39 @@ img{
 
 .loginBtn:hover, .signUpBtn:hover {
     background-color: #013C78;
+}
+/* Style for admin page */
+.admin-page {
+    padding: 20px;
+}
+.container-flex {
+    display: flex;
+    gap: 20px;
+}
+
+.user-list, .task-list {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 45%;
+    min-height: 300px;
+}
+
+.user-item {
+    cursor: pointer;
+}
+
+.user-item:hover {
+    background-color: #f0f0f0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.trash-icon {
+    color: red;
+    cursor: pointer;
 }

@@ -14,7 +14,7 @@ loginBtn.addEventListener("click", () => {
 })
 
 // If user is signed in, do the following
-if(userId){
+if(userId && userId != '686d2969d78018395167bf70'){
     container.remove();
     const buttonsContainer = document.createElement("div");
     buttonsContainer.innerHTML = `
