@@ -29,6 +29,10 @@ app.use(session({
 // Connect files
 app.use(express.static('public'));
 
+const path = require('path');
+app.get('/admin.html', isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, 'protected/admin.html'));
+});
 const User = require('./models/User');
 
 function isAuthenticated(req, res, next) {
