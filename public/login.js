@@ -23,7 +23,11 @@ function logInUser(){
         if(data._id){
             console.log('Logged in:', data);
             localStorage.setItem('userId', data._id);
-            window.location.href = 'index.html';
+            if (email === 'admin@gmail.com') {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'index.html';
+            }
         } else {
             alert(data.error || 'Login failed');
         }
