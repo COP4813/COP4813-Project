@@ -24,7 +24,7 @@ function logInUser(){
             console.log('Logged in:', data);
             localStorage.setItem('userId', data._id);
             if (email === 'admin@gmail.com') {
-                window.location.href = 'admin.html';
+                window.location.href = '/admin.html';
             } else {
                 window.location.href = 'index.html';
             }
