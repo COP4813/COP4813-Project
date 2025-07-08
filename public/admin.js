@@ -52,5 +52,18 @@ async function deleteUser(userId) {
 
 // fetch users as soon as page loads
 window.onload = () => {
-	getUsers();
-};
+	fetch('/check-auth')
+		.then(res => {
+			if (!res.ok) {
+				// Redirect to login if not authorized
+				window.location.href = '/login.html';
+			} else {
+				// If authorized, fetch users
+				getUsers();
+			}
+		})
+		.catch(err => {
+			console.error('Auth check failed:', err);
+			window.location.href = '/login.html';
+		});
+}

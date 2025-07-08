@@ -17,13 +17,39 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+const session = require('express-session');
+// Session middleware
+app.use(session({
+  secret: 'yourSecretKey', // replace with env var in production
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // secure: true if using HTTPS
+}));
+
 // Connect files
 app.use(express.static('public'));
 
 const User = require('./models/User');
+
+function isAuthenticated(req, res, next) {
+  if (req.session.user && req.session.user.email === 'admin@gmail.com') {
+    return next();
+  } else {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+}
+
+app.get('/check-auth', (req, res) => {
+  if (req.session.user && req.session.user.email === 'admin@gmail.com') {
+    return res.sendStatus(200); // OK
+  } else {
+    return res.sendStatus(401); // Unauthorized
+  }
+});
+
 // ROUTES
 // GET route to fetch users 
-app.get('/users', async (req, res) => {
+app.get('/users', isAuthenticated, async (req, res) => {
   try {
     const users = await User.find({}, 'email'); // get email and username (adjust fields as needed)
     res.json(users);
@@ -34,7 +60,7 @@ app.get('/users', async (req, res) => {
 });
 
 //POST route to create user
-app.post('/users', async (req, res) => {
+app.post('/users', isAuthenticated, async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -48,7 +74,7 @@ app.post('/users', async (req, res) => {
 });
 
 // DELETE route for users
-app.delete('/users/:id', async (req, res) => {
+app.delete('/users/:id', isAuthenticated, async (req, res) => {
   const userId = req.params.id;
   try {
     await User.findByIdAndDelete(userId);
@@ -58,6 +84,7 @@ app.delete('/users/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete user' });
   }
 });
+
 
 // Authenticates the user
 const bcrypt = require('bcrypt');
@@ -74,6 +101,11 @@ app.post('/login', async (req, res) => {
       if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
+
+      req.session.user = {
+      _id: user._id,
+      email: user.email
+    };
       // If login is successful
       res.status(200).json({
           message: 'Login successful',
