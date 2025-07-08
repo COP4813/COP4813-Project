@@ -31,7 +31,7 @@ app.use(express.static('public'));
 
 const path = require('path');
 app.get('/admin.html', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, '/admin.html'));
+  res.sendFile(path.join(__dirname, 'private/admin.html'));
 });
 const User = require('./models/User');
 
