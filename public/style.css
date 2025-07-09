@@ -71,14 +71,6 @@ body {
 }
 
 /* Login page layout */
-.login-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(to right, #ece9e6, #ffffff);
-}
-
 .login-card {
     background-color: white;
     padding: 40px 30px;

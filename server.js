@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 const session = require('express-session');
+
 // Session middleware
 app.use(session({
   secret: 'yourSecretKey', // replace with env var in production
