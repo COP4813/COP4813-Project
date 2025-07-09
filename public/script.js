@@ -1,6 +1,6 @@
 // Grab all needed variables
 const userId = localStorage.getItem('userId');
-const container = document.querySelector(".container");
+const container = document.querySelector(".auth-section");
 const loginBtn = document.querySelector(".loginBtn");
 const signUpBtn = document.querySelector(".signUpBtn");
 
