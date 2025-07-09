@@ -116,18 +116,48 @@ body {
 
 /* Style for admin page */
 .admin-page {
-    padding: 20px;
+    background: linear-gradient(to right, #f4f7f9, #e8ecf0);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px 20px;
 }
+
+.admin-container {
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+}
+
+.admin-container h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.subtitle {
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
 .container-flex {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
 .user-list, .task-list {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 45%;
-    min-height: 300px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.shadow-box {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .user-item {
@@ -142,10 +172,27 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 0;
+    padding: 8px 12px;
 }
 
 .trash-icon {
     color: red;
     cursor: pointer;
+    font-size: 18px;
+}
+
+.signOutBtn {
+    background-color: #e74c3c;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.signOutBtn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
 }
