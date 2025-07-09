@@ -20,14 +20,9 @@ if(userId && userId != '686d2969d78018395167bf70'){
     buttonsContainer.innerHTML = `
         <button class = "loginBtn">Add Budget +</button>
         <button class = "loginBtn">Add Task +</button>
-    `;
-    document.body.appendChild(buttonsContainer);
-
-    const signOutConatiner = document.createElement("div");
-    signOutConatiner.innerHTML = `
         <button class = "signOutBtn">Sign Out</button>
     `;
-    document.body.appendChild(signOutConatiner);
+    document.body.appendChild(buttonsContainer);
 
     // Signs user out
     const signOutBtn = document.querySelector(".signOutBtn");
