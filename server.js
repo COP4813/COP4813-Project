@@ -123,7 +123,41 @@ app.post('/login', async (req, res) => {
     }
   
 });
+// Routes for Analytics dashboard
+app.get('/stats/total-users', isAuthenticated, async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ totalUsers: count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to count users' });
+  }
+});
+// User over time
+app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
+  const { timeframe = 'daily' } = req.query;
+  const groupBy = {
+    daily: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+    weekly: { $dateToString: { format: "%Y-%U", date: "$createdAt" } },
+    monthly: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+  };
 
+  try {
+    const data = await User.aggregate([
+      {
+        $group: {
+          _id: groupBy[timeframe],
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch registration stats' });
+  }
+});
 
   // Listen
   app.listen(PORT, () => {
