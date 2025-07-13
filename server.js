@@ -106,7 +106,9 @@ app.post('/login', async (req, res) => {
       if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
-
+        
+    user.lastActiveAt = new Date();
+    await user.save();
       req.session.user = {
       _id: user._id,
       email: user.email
