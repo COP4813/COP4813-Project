@@ -106,7 +106,7 @@ app.post('/login', async (req, res) => {
       if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
-        
+
     user.lastActiveAt = new Date();
     await user.save();
       req.session.user = {
@@ -158,6 +158,26 @@ app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch registration stats' });
+  }
+});
+
+app.get('/stats/active-users', async (req, res) => {
+  try {
+    // Define what "active" means — e.g., users active in the last 30 days
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - 30);
+
+    const activeUsers = await User.countDocuments({ lastActiveAt: { $gte: cutoffDate } });
+    const totalUsers = await User.countDocuments();
+    const inactiveUsers = totalUsers - activeUsers;
+
+    res.json({
+      activeUsers,
+      inactiveUsers
+    });
+  } catch (error) {
+    console.error('Error fetching active users stats:', error);
+    res.status(500).json({ error: 'Failed to fetch active users stats' });
   }
 });
 
