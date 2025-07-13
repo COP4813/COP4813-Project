@@ -18,31 +18,6 @@ async function fetchData() {
         }
       });
 
-      // Completion Rate
-      const compRes = await fetch('/stats/completion-rate');
-      const compData = await compRes.json();
-      document.getElementById('completionRate').innerText = compData.completionRate;
-
-      // Total Posts
-      const postRes = await fetch('/stats/total-posts');
-      const postData = await postRes.json();
-      document.getElementById('totalPosts').innerText = postData.totalPosts;
-
-      // Posts by Category
-      const catRes = await fetch('/stats/posts-by-category');
-      const catData = await catRes.json();
-      new Chart(document.getElementById('categoryChart'), {
-        type: 'bar',
-        data: {
-          labels: catData.map(d => d._id),
-          datasets: [{
-            label: 'Posts',
-            data: catData.map(d => d.count),
-            backgroundColor: '#0d6efd'
-          }]
-        }
-      });
-
       // Registrations Over Time
       const timeframe = document.getElementById('timeframe').value;
       const regRes = await fetch(`/stats/registrations-over-time?timeframe=${timeframe}`);
