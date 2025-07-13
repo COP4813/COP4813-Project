@@ -36,7 +36,7 @@ async function fetchData() {
       });
 
       document.getElementById('timeframe').addEventListener('change', async () => {
-        location.reload(); // simple refresh for now
+        location.reload();
       });
     }
 

@@ -160,10 +160,9 @@ app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch registration stats' });
   }
 });
-
+ // Route for getting users active
 app.get('/stats/active-users', async (req, res) => {
   try {
-    // Define what "active" means — e.g., users active in the last 30 days
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 30);
 
