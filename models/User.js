@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema ({
         require: true,
         minlength: 8
     },
+    lastActiveAt: {
+        type: Date,
+        default: Date.now
+    },
 }, { timestamps: true});
 
 // Hashing the password

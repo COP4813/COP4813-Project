@@ -181,7 +181,7 @@ body {
     font-size: 18px;
 }
 
-.signOutBtn {
+.signOutBtn, .analyticsBtn {
     background-color: #e74c3c;
     color: white;
     font-size: 18px;

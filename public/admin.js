@@ -138,3 +138,8 @@ window.onload = () => {
 
         window.location.href = "index.html";
     });
+
+	// Takes admin to analytics
+	document.getElementById('analyticsBtn').addEventListener('click', () => {
+    window.location.href = '/analytics.html';
+  });

@@ -1,7 +1,7 @@
 // MongoDB set-up
 const mongoose = require('mongoose');
 
-const mongoURI = process.env.URI;
+const mongoURI = process.env.MONGO_URI;
 
 mongoose.connect(mongoURI)
   .then(() => console.log('✅ Connected to MongoDB'))
@@ -108,6 +108,8 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
+    user.lastActiveAt = new Date();
+    await user.save();
       req.session.user = {
       _id: user._id,
       email: user.email
@@ -125,14 +127,12 @@ app.post('/login', async (req, res) => {
   
 });
 
-// TASK ROUTES
-// GET all tasks for a user
 app.get('/tasks', async (req, res) => {
   const userId = req.query.userId;
   if (!userId) {
     return res.status(400).json({ error: 'User ID required' });
   }
-  
+
   try {
     const tasks = await Task.find({ userId }).sort({ createdAt: -1 });
     res.json(tasks);
@@ -142,7 +142,6 @@ app.get('/tasks', async (req, res) => {
   }
 });
 
-// GET all tasks (admin only)
 app.get('/tasks/all', isAuthenticated, async (req, res) => {
   try {
     const tasks = await Task.find().populate('userId', 'email').sort({ createdAt: -1 });
@@ -153,14 +152,13 @@ app.get('/tasks/all', isAuthenticated, async (req, res) => {
   }
 });
 
-// POST create new task
 app.post('/tasks', async (req, res) => {
   const { title, description, priority, dueDate, userId } = req.body;
-  
+
   if (!title || !userId) {
     return res.status(400).json({ error: 'Title and user ID are required' });
   }
-  
+
   try {
     const newTask = new Task({
       title,
@@ -169,7 +167,7 @@ app.post('/tasks', async (req, res) => {
       dueDate,
       userId
     });
-    
+
     const savedTask = await newTask.save();
     res.status(201).json(savedTask);
   } catch (err) {
@@ -178,22 +176,21 @@ app.post('/tasks', async (req, res) => {
   }
 });
 
-// PUT update task
 app.put('/tasks/:id', async (req, res) => {
   const taskId = req.params.id;
   const { title, description, status, priority, dueDate } = req.body;
-  
+
   try {
     const updatedTask = await Task.findByIdAndUpdate(
-      taskId,
-      { title, description, status, priority, dueDate, updatedAt: Date.now() },
-      { new: true, runValidators: true }
+        taskId,
+        { title, description, status, priority, dueDate, updatedAt: Date.now() },
+        { new: true, runValidators: true }
     );
-    
+
     if (!updatedTask) {
       return res.status(404).json({ error: 'Task not found' });
     }
-    
+
     res.json(updatedTask);
   } catch (err) {
     console.error('Error updating task:', err);
@@ -201,17 +198,16 @@ app.put('/tasks/:id', async (req, res) => {
   }
 });
 
-// DELETE task
 app.delete('/tasks/:id', async (req, res) => {
   const taskId = req.params.id;
-  
+
   try {
     const deletedTask = await Task.findByIdAndDelete(taskId);
-    
+
     if (!deletedTask) {
       return res.status(404).json({ error: 'Task not found' });
     }
-    
+
     res.json({ message: 'Task deleted successfully' });
   } catch (err) {
     console.error('Error deleting task:', err);
@@ -219,6 +215,60 @@ app.delete('/tasks/:id', async (req, res) => {
   }
 });
 
+// Routes for Analytics dashboard
+app.get('/stats/total-users', isAuthenticated, async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ totalUsers: count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to count users' });
+  }
+});
+// User over time
+app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
+  const { timeframe = 'daily' } = req.query;
+  const groupBy = {
+    daily: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+    weekly: { $dateToString: { format: "%Y-%U", date: "$createdAt" } },
+    monthly: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+  };
+
+  try {
+    const data = await User.aggregate([
+      {
+        $group: {
+          _id: groupBy[timeframe],
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch registration stats' });
+  }
+});
+ // Route for getting users active
+app.get('/stats/active-users', async (req, res) => {
+  try {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - 30);
+
+    const activeUsers = await User.countDocuments({ lastActiveAt: { $gte: cutoffDate } });
+    const totalUsers = await User.countDocuments();
+    const inactiveUsers = totalUsers - activeUsers;
+
+    res.json({
+      activeUsers,
+      inactiveUsers
+    });
+  } catch (error) {
+    console.error('Error fetching active users stats:', error);
+    res.status(500).json({ error: 'Failed to fetch active users stats' });
+  }
+});
 
   // Listen
   app.listen(PORT, () => {
