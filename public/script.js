@@ -19,11 +19,17 @@ if(userId && userId != '686d2969d78018395167bf70'){
     const buttonsContainer = document.createElement("div");
     buttonsContainer.innerHTML = `
         <button class = "loginBtn">Add Budget +</button>
-        <button class = "loginBtn">Add Task +</button>
+        <button class = "loginBtn" id="addTaskBtn">Add Task +</button>
         <button class = "signOutBtn">Sign Out</button>
     `;
     document.body.appendChild(buttonsContainer);
 
+    // task button
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    addTaskBtn.addEventListener("click", () => {
+        window.location.href = "tasks.html";
+    });
+    
     // Signs user out
     const signOutBtn = document.querySelector(".signOutBtn");
     signOutBtn.addEventListener("click", () => {

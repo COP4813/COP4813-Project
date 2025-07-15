@@ -1,7 +1,7 @@
 // MongoDB set-up
 const mongoose = require('mongoose');
 
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = process.env.URI;
 
 mongoose.connect(mongoURI)
   .then(() => console.log('✅ Connected to MongoDB'))
@@ -35,6 +35,7 @@ app.get('/admin.html', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, 'private/admin.html'));
 });
 const User = require('./models/User');
+const Task = require('./models/Task');
 
 function isAuthenticated(req, res, next) {
   if (req.session.user && req.session.user.email === 'admin@gmail.com') {
@@ -122,6 +123,100 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
   
+});
+
+// TASK ROUTES
+// GET all tasks for a user
+app.get('/tasks', async (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID required' });
+  }
+  
+  try {
+    const tasks = await Task.find({ userId }).sort({ createdAt: -1 });
+    res.json(tasks);
+  } catch (err) {
+    console.error('Error fetching tasks:', err);
+    res.status(500).json({ error: 'Failed to fetch tasks' });
+  }
+});
+
+// GET all tasks (admin only)
+app.get('/tasks/all', isAuthenticated, async (req, res) => {
+  try {
+    const tasks = await Task.find().populate('userId', 'email').sort({ createdAt: -1 });
+    res.json(tasks);
+  } catch (err) {
+    console.error('Error fetching all tasks:', err);
+    res.status(500).json({ error: 'Failed to fetch tasks' });
+  }
+});
+
+// POST create new task
+app.post('/tasks', async (req, res) => {
+  const { title, description, priority, dueDate, userId } = req.body;
+  
+  if (!title || !userId) {
+    return res.status(400).json({ error: 'Title and user ID are required' });
+  }
+  
+  try {
+    const newTask = new Task({
+      title,
+      description,
+      priority,
+      dueDate,
+      userId
+    });
+    
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
+  } catch (err) {
+    console.error('Error creating task:', err);
+    res.status(500).json({ error: 'Failed to create task' });
+  }
+});
+
+// PUT update task
+app.put('/tasks/:id', async (req, res) => {
+  const taskId = req.params.id;
+  const { title, description, status, priority, dueDate } = req.body;
+  
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(
+      taskId,
+      { title, description, status, priority, dueDate, updatedAt: Date.now() },
+      { new: true, runValidators: true }
+    );
+    
+    if (!updatedTask) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    
+    res.json(updatedTask);
+  } catch (err) {
+    console.error('Error updating task:', err);
+    res.status(500).json({ error: 'Failed to update task' });
+  }
+});
+
+// DELETE task
+app.delete('/tasks/:id', async (req, res) => {
+  const taskId = req.params.id;
+  
+  try {
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+    
+    if (!deletedTask) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    
+    res.json({ message: 'Task deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting task:', err);
+    res.status(500).json({ error: 'Failed to delete task' });
+  }
 });
 
 
