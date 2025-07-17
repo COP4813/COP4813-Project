@@ -270,6 +270,61 @@ app.get('/stats/active-users', async (req, res) => {
   }
 });
 
+//Budget api functions
+const Budget = require('./models/Budget');
+app.get('/budget/:userId', async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        let budget = await Budget.findOne({ userId });
+        if (!budget) {
+            budget = await Budget.create({ userId, maxBudget: 0, totalSpent: 0 });
+        }
+        res.json(budget);
+    } catch (err) {
+        console.error('Error fetching budget:', err);
+        res.status(500).json({ error: 'Failed to fetch budget' });
+    }
+});
+
+app.post('/budget/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    const { maxBudget } = req.body;
+
+    try {
+        let budget = await Budget.findOne({ userId });
+        if (!budget) {
+            budget = await Budget.create({ userId, maxBudget, totalSpent: 0 });
+        } else {
+            budget.maxBudget = maxBudget;
+            await budget.save();
+        }
+        res.json(budget);
+    } catch (err) {
+        console.error('Error updating budget:', err);
+        res.status(500).json({ error: 'Failed to update budget' });
+    }
+});
+
+app.post('/spend/:userId', async (req, res) => {
+    const userId = req.params.userId;
+    const { amount } = req.body;
+
+    try {
+        const budget = await Budget.findOne({ userId });
+        if (!budget) {
+            return res.status(404).json({ error: 'Budget not found' });
+        }
+        budget.totalSpent += amount;
+        await budget.save();
+        res.json(budget);
+    } catch (err) {
+        console.error('Error adding spend:', err);
+        res.status(500).json({ error: 'Failed to update spend' });
+    }
+});
+
+
   // Listen
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

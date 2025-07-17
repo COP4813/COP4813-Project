@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Project Budget Manager</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: linear-gradient(to right, #eef2f3, #cfd9df);
+                max-width: 500px;
+                margin: 50px auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+            }
+            h1 {
+                text-align: center;
+            }
+            .section {
+                margin-bottom: 20px;
+            }
+            input[type="number"] {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+                cursor: pointer;
+            }
+            .results {
+                margin-top: 20px;
+                font-size: 1.2em;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1>Project Budget Manager</h1>
+
+        <div class="section">
+            <label for="maxBudget">Enter your max budget ($):</label>
+            <input type="number" id="maxBudget" min="0" step="0.01">
+            <button onclick="setBudget()">Set Budget</button>
+        </div>
+
+        <div class="section">
+            <label for="amountSpent">Enter amount spent ($):</label>
+            <input type="number" id="amountSpent" min="0" step="0.01">
+            <button onclick="addSpent()">Add Spent Amount</button>
+        </div>
+
+        <div class="results">
+            <p>Max Budget: $<span id="displayMax">0.00</span></p>
+            <p>Total Spent: $<span id="displaySpent">0.00</span></p>
+            <p>Remaining: $<span id="displayRemaining">0.00</span></p>
+        </div>
+
+        <script>
+            let maxBudget = 0;
+            let totalSpent = 0;
+            const userId = localStorage.getItem('userId');
+
+            async function fetchBudget() {
+                const res = await fetch(`/budget/${userId}`);
+                const data = await res.json();
+                maxBudget = data.maxBudget;
+                totalSpent = data.totalSpent;
+                updateDisplay();
+            }
+
+            async function setBudget() {
+                const input = document.getElementById('maxBudget').value;
+                maxBudget = parseFloat(input) || 0;
+                await fetch(`/budget/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ maxBudget })
+                });
+                updateDisplay();
+            }
+
+            async function addSpent() {
+                const input = document.getElementById('amountSpent').value;
+                const amount = parseFloat(input) || 0;
+                totalSpent += amount;
+                await fetch(`/spend/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount })
+                });
+                updateDisplay();
+            }
+
+            function updateDisplay() {
+                document.getElementById('displayMax').textContent = maxBudget.toFixed(2);
+                document.getElementById('displaySpent').textContent = totalSpent.toFixed(2);
+                document.getElementById('displayRemaining').textContent = (maxBudget - totalSpent).toFixed(2);
+            }
+
+            // Fetch budget on page load
+            fetchBudget();
+        </script>
+
+    </body>
+</html>
