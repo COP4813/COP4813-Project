@@ -7,20 +7,20 @@ const signUpBtn = document.querySelector(".signUpBtn");
 // Send user to correct sing up or login page
 signUpBtn.addEventListener("click", () => {
     window.location.href = "signUp.html";
-})
+});
 
 loginBtn.addEventListener("click", () => {
     window.location.href = "login.html";
-})
+});
 
 // If user is signed in, do the following
-if(userId && userId != '686d2969d78018395167bf70'){
+if (userId && userId != '686d2969d78018395167bf70') {
     container.remove();
     const buttonsContainer = document.createElement("div");
     buttonsContainer.innerHTML = `
-        <button class = "loginBtn">Add Budget +</button>
-        <button class = "loginBtn" id="addTaskBtn">Add Task +</button>
-        <button class = "signOutBtn">Sign Out</button>
+        <button class="loginBtn" id="addBudgetBtn">Add Budget +</button>
+        <button class="loginBtn" id="addTaskBtn">Add Task +</button>
+        <button class="signOutBtn">Sign Out</button>
     `;
     document.body.appendChild(buttonsContainer);
 
@@ -35,7 +35,7 @@ if(userId && userId != '686d2969d78018395167bf70'){
     addTaskBtn.addEventListener("click", () => {
         window.location.href = "tasks.html";
     });
-    
+
     // Signs user out
     const signOutBtn = document.querySelector(".signOutBtn");
     signOutBtn.addEventListener("click", () => {
@@ -46,6 +46,7 @@ if(userId && userId != '686d2969d78018395167bf70'){
         window.location.href = "index.html";
     });
 }
+
 
 
 
