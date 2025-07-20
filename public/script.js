@@ -38,13 +38,25 @@ if (userId && userId != '686d2969d78018395167bf70') {
 
     // Signs user out
     const signOutBtn = document.querySelector(".signOutBtn");
-    signOutBtn.addEventListener("click", () => {
+    signOutBtn.addEventListener("click", async () => {
+        try {
+            // Notify backend user is logging out
+            await fetch(`/users/${userId}/logout`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+        } catch (err) {
+            console.error('Error marking user inactive:', err);
+        }
+
+        // Clear localStorage and redirect
         localStorage.removeItem("userId");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
 
         window.location.href = "index.html";
     });
+
 }
 
 

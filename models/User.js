@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema ({
         type: Date,
         default: Date.now
     },
+    active: {
+        type: Boolean,
+        default: true // Users are active when created
+    }
 }, { timestamps: true});
 
 // Hashing the password

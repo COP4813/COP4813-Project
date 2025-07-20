@@ -107,7 +107,7 @@ app.post('/login', async (req, res) => {
       if (!isMatch) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
-
+    user.active = true;
     user.lastActiveAt = new Date();
     await user.save();
       req.session.user = {
@@ -253,22 +253,29 @@ app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
  // Route for getting users active
 app.get('/stats/active-users', async (req, res) => {
   try {
-    const cutoffDate = new Date();
-    cutoffDate.setDate(cutoffDate.getDate() - 30);
-
-    const activeUsers = await User.countDocuments({ lastActiveAt: { $gte: cutoffDate } });
+    const activeUsers = await User.countDocuments({ active: true });
     const totalUsers = await User.countDocuments();
     const inactiveUsers = totalUsers - activeUsers;
 
-    res.json({
-      activeUsers,
-      inactiveUsers
-    });
-  } catch (error) {
-    console.error('Error fetching active users stats:', error);
-    res.status(500).json({ error: 'Failed to fetch active users stats' });
+    res.json({ activeUsers, inactiveUsers });
+  } catch (err) {
+    console.error('Failed to fetch stats:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+// Route: Mark user inactive on logout
+app.post('/users/:id/logout', async (req, res) => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, { active: false });
+        res.sendStatus(200);
+    } catch (err) {
+        console.error('Failed to mark user inactive:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 //Budget api functions
 const Budget = require('./models/Budget');
