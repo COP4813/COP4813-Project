@@ -11,20 +11,20 @@
             margin: 40px auto;
             padding: 0 20px;
         }
-        
+
         .task-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
-        
+
         .task-filters {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
-        
+
         .filter-btn {
             padding: 8px 16px;
             border: 1px solid #ddd;
@@ -33,13 +33,13 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .filter-btn.active {
             background: #007bff;
             color: white;
             border-color: #007bff;
         }
-        
+
         .task-card {
             background: white;
             border-radius: 12px;
@@ -48,26 +48,26 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
-        
+
         .task-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
         }
-        
+
         .task-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 10px;
         }
-        
+
         .task-title {
             font-size: 18px;
             font-weight: 600;
             margin: 0;
             flex: 1;
         }
-        
+
         .task-priority {
             padding: 4px 12px;
             border-radius: 12px;
@@ -75,62 +75,62 @@
             font-weight: 500;
             text-transform: uppercase;
         }
-        
+
         .priority-high {
             background: #fee;
             color: #d00;
         }
-        
+
         .priority-medium {
             background: #ffeaa7;
             color: #d68910;
         }
-        
+
         .priority-low {
             background: #dfe6e9;
             color: #636e72;
         }
-        
+
         .task-description {
             color: #666;
             margin: 10px 0;
             font-size: 14px;
         }
-        
+
         .task-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 15px;
         }
-        
+
         .task-status {
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 500;
         }
-        
+
         .status-pending {
             background: #f3f4f6;
             color: #6b7280;
         }
-        
+
         .status-in-progress {
             background: #e0f2fe;
             color: #0369a1;
         }
-        
+
         .status-completed {
             background: #d1fae5;
             color: #065f46;
         }
-        
+
         .task-actions {
             display: flex;
             gap: 10px;
         }
-        
+
         .task-btn {
             padding: 6px 12px;
             border: none;
@@ -139,25 +139,25 @@
             font-size: 13px;
             transition: all 0.2s;
         }
-        
+
         .edit-btn {
             background: #007bff;
             color: white;
         }
-        
+
         .edit-btn:hover {
             background: #0056b3;
         }
-        
+
         .delete-btn {
             background: #dc3545;
             color: white;
         }
-        
+
         .delete-btn:hover {
             background: #c82333;
         }
-        
+
         .add-task-btn {
             position: fixed;
             bottom: 30px;
@@ -173,12 +173,12 @@
             box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
             transition: all 0.3s;
         }
-        
+
         .add-task-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -191,11 +191,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.active {
             display: flex;
         }
-        
+
         .modal-content {
             background: white;
             border-radius: 12px;
@@ -204,20 +204,20 @@
             max-width: 500px;
             position: relative;
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .modal-title {
             font-size: 24px;
             font-weight: 600;
             margin: 0;
         }
-        
+
         .close-btn {
             background: none;
             border: none;
@@ -225,18 +225,18 @@
             cursor: pointer;
             color: #999;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: #333;
         }
-        
+
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -246,19 +246,19 @@
             border-radius: 8px;
             font-size: 14px;
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
         }
-        
+
         .form-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
             margin-top: 25px;
         }
-        
+
         .btn-primary {
             background: #007bff;
             color: white;
@@ -268,7 +268,7 @@
             cursor: pointer;
             font-size: 14px;
         }
-        
+
         .btn-secondary {
             background: #f3f4f6;
             color: #333;
@@ -278,104 +278,124 @@
             cursor: pointer;
             font-size: 14px;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: #999;
         }
-        
+
         .empty-state h3 {
             font-size: 24px;
             margin-bottom: 10px;
             color: #666;
         }
-        
+
         .due-date {
             font-size: 13px;
             color: #666;
         }
-        
+
         .overdue {
             color: #dc3545;
+        }
+        .homeBtn {
+            margin-top: 10px;
+            width: 200px;
+            height: 45px;
+            background-color: #0059B4;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .homeBtn:hover {
+            background-color: #013C78;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="tasks-container">
-        <div class="task-header">
-            <h1>My Tasks</h1>
-            <button class="signOutBtn" onclick="signOut()">Sign Out</button>
-        </div>
-        
-        <div class="task-filters">
-            <button class="filter-btn active" data-filter="all">All Tasks</button>
-            <button class="filter-btn" data-filter="pending">Pending</button>
-            <button class="filter-btn" data-filter="in-progress">In Progress</button>
-            <button class="filter-btn" data-filter="completed">Completed</button>
-        </div>
-        
-        <div id="tasksList"></div>
-        
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <h3>No tasks yet</h3>
-            <p>Click the + button to create your first task</p>
-        </div>
+<div class="tasks-container">
+    <div class="task-header">
+        <h1>My Tasks</h1>
+        <button class="signOutBtn" onclick="signOut()">Sign Out</button>
     </div>
-    
-    <button class="add-task-btn" onclick="openTaskModal()">+</button>
-    
-    <div class="modal" id="taskModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">Create New Task</h2>
-                <button class="close-btn" onclick="closeTaskModal()">&times;</button>
+
+    <div class="task-filters">
+        <button class="filter-btn active" data-filter="all">All Tasks</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="in-progress">In Progress</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+    </div>
+
+    <div id="tasksList"></div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+        <h3>No tasks yet</h3>
+        <p>Click the + button to create your first task</p>
+    </div>
+</div>
+
+<button class="add-task-btn" onclick="openTaskModal()">+</button>
+
+<div class="modal" id="taskModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modalTitle">Create New Task</h2>
+            <button class="close-btn" onclick="closeTaskModal()">&times;</button>
+        </div>
+
+        <form id="taskForm">
+            <input type="hidden" id="taskId">
+
+            <div class="form-group">
+                <label for="taskTitle">Title *</label>
+                <input type="text" id="taskTitle" required>
             </div>
-            
-            <form id="taskForm">
-                <input type="hidden" id="taskId">
-                
-                <div class="form-group">
-                    <label for="taskTitle">Title *</label>
-                    <input type="text" id="taskTitle" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="taskDescription">Description</label>
-                    <textarea id="taskDescription"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="taskPriority">Priority</label>
-                    <select id="taskPriority">
-                        <option value="low">Low</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="taskStatus">Status</label>
-                    <select id="taskStatus">
-                        <option value="pending">Pending</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="taskDueDate">Due Date</label>
-                    <input type="date" id="taskDueDate">
-                </div>
-                
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Task</button>
-                </div>
-            </form>
-        </div>
+
+            <div class="form-group">
+                <label for="taskDescription">Description</label>
+                <textarea id="taskDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="taskPriority">Priority</label>
+                <select id="taskPriority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="taskStatus">Status</label>
+                <select id="taskStatus">
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="taskDueDate">Due Date</label>
+                <input type="date" id="taskDueDate">
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                <button type="submit" class="btn-primary">Save Task</button>
+            </div>
+        </form>
     </div>
-    
-    <script src="tasks.js"></script>
+</div>
+
+<a href="index.html?controller=user&action=searchForm">
+    <button type="button" class="homeBtn">Home</button>
+</a>
+
+<script src="tasks.js"></script>
 </body>
 </html>
