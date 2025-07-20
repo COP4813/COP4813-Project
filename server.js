@@ -250,6 +250,21 @@ app.get('/stats/registrations-over-time', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch registration stats' });
   }
 });
+app.get('/stats/completed-tasks-percentage', async (req, res) => {
+  try {
+    const totalTasks = await Task.countDocuments();
+    const completedTasks = await Task.countDocuments({ status: 'completed' });
+
+    const percentage = totalTasks > 0
+      ? Math.round((completedTasks / totalTasks) * 100)
+      : 0;
+
+    res.json({ totalTasks, completedTasks, percentage });
+  } catch (err) {
+    console.error('Error fetching task stats:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
  // Route for getting users active
 app.get('/stats/active-users', async (req, res) => {
   try {

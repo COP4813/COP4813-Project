@@ -18,6 +18,12 @@ async function fetchData() {
         }
       });
 
+      // Completion Rate
+    const completionRes = await fetch('/stats/completed-tasks-percentage');
+    const completionData = await completionRes.json();
+    document.getElementById('completionRate').innerText = `${completionData.percentage}%`;
+
+
       // Registrations Over Time
       const timeframe = document.getElementById('timeframe').value;
       const regRes = await fetch(`/stats/registrations-over-time?timeframe=${timeframe}`);
