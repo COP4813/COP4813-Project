@@ -21,6 +21,7 @@ if(userId && userId != '686d2969d78018395167bf70'){
         <button class = "loginBtn">Add Budget +</button>
         <button class = "loginBtn" id="addTaskBtn">Add Task +</button>
         <button class = "signOutBtn">Sign Out</button>
+        <button class = "loginBtn" id="homeBtn">Home</button>
     `;
     document.body.appendChild(buttonsContainer);
 
@@ -28,6 +29,12 @@ if(userId && userId != '686d2969d78018395167bf70'){
     const addBudgetBtn = document.getElementById("addBudgetBtn");
     addBudgetBtn.addEventListener("click", () => {
         window.location.href = "budgets.html";
+    });
+
+    // home button
+    const homeBtn = document.getElementById("homeBtn");
+    homeBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
     });
 
     // task button

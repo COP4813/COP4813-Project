@@ -299,6 +299,22 @@
         .overdue {
             color: #dc3545;
         }
+        .homeBtn {
+                margin-top: 10px;
+                width: 200px;
+                height: 45px;
+                background-color: #0059B4;
+                color: white;
+                font-size: 18px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            .homeBtn:hover {
+                background-color: #013C78;
+                transform: scale(1.05);
+            }
     </style>
 </head>
 <body>
@@ -375,6 +391,10 @@
             </form>
         </div>
     </div>
+    
+    <a href="index.html?controller=user&action=searchForm">
+        <button type="button" class="homeBtn">Home</button>
+    </a>
     
     <script src="tasks.js"></script>
 </body>
