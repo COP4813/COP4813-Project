@@ -101,30 +101,34 @@ app.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-            return res.status(400).json({ error: 'Invalid email or password' });
-        }
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-            return res.status(400).json({ error: 'Invalid email or password' });
-        }
-    user.active = true;
-    user.lastActiveAt = new Date();
-    await user.save();
-      req.session.user = {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+    
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    await User.findByIdAndUpdate(user._id, {
+      active: true,
+      lastActiveAt: new Date()
+    });
+    
+    req.session.user = {
       _id: user._id,
       email: user.email
     };
-      // If login is successful
-      res.status(200).json({
-          message: 'Login successful',
-          _id: user._id,
-          username: user.username
-      });
+    
+    // If login is successful
+    res.status(200).json({
+      message: 'Login successful',
+      _id: user._id,
+      username: user.username
+    });
   } catch (err) {
-        console.error('Login error:', err);
-        res.status(500).json({ error: 'Server error' });
-    }
-  
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 app.get('/tasks', async (req, res) => {
@@ -160,6 +164,11 @@ app.post('/tasks', async (req, res) => {
   }
 
   try {
+    const userExists = await User.findById(userId);
+    if (!userExists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     const newTask = new Task({
       title,
       description,
@@ -314,6 +323,11 @@ app.post('/budget/:userId', async (req, res) => {
     const { maxBudget } = req.body;
 
     try {
+        const userExists = await User.findById(userId);
+        if (!userExists) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
         let budget = await Budget.findOne({ userId });
         if (!budget) {
             budget = await Budget.create({ userId, maxBudget, totalSpent: 0 });

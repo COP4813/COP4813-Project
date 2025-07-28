@@ -18,8 +18,8 @@ if(userId){
     container.remove();
     const buttonsContainer = document.createElement("div");
     buttonsContainer.innerHTML = `
-        <button class = "loginBtn">Add Budget +</button>
-        <button class = "loginBtn">Add Task +</button>
+        <button class = "addBudgetBtn">Add Budget +</button>
+        <button class = "addTaskBtn">Add Task +</button>
     `;
     document.body.appendChild(buttonsContainer);
 
