@@ -1,10 +1,14 @@
 const signUpButton = document.querySelector('.signUpBtn');
 
 signUpButton.addEventListener("click", () => {
-    // Grab values when the button is clicked
     const email = document.querySelector('.email').value;
     const password = document.querySelector('.password').value;
 
+    // Check password length
+    if (password.length < 8) {
+        alert("Password must be at least 8 characters long.");
+        return; // Stop execution
+    }
 
     fetch('https://cop4813-project.onrender.com/users', {
         method: 'POST',
@@ -26,4 +30,6 @@ signUpButton.addEventListener("click", () => {
         console.error('Error creating user:', error);
     });
 });
+
+
 
